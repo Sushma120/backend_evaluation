@@ -53,7 +53,7 @@ userDataController.searchItem = async (req, res) => {
             return utils.sendErrorResponse(res, "bad request", error)
         }
     }
-    userController.editDetails= async (req, res) => {
+    userDataController.editDetails= async (req, res) => {
         try {
             const updateData = await schemaUserData.editDetails(req, res, mongoose);
             return utils.sendSuccessResponse(res, 'Success', updateData)
@@ -63,7 +63,7 @@ userDataController.searchItem = async (req, res) => {
         }
     }
 
-    userController.syncData = async (req, res) => {
+    userDataController.syncData = async (req, res) => {
         try {
 
             let data = await schemaUserData.find(req.body);
@@ -80,7 +80,7 @@ userDataController.searchItem = async (req, res) => {
         }
     }
 
-    userController.copyPassword = async (req, res) => {
+    userDataController.copyPassword = async (req, res) => {
         try{
             let sitePassword = req.body.sitePassword;
             copyPaste.copy(sitePassword, function (err) {
