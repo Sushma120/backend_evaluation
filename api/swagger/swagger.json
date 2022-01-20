@@ -1,0 +1,413 @@
+{
+    "swagger":"2.0",
+    "info":{
+        "version": " 1.0.0",
+        "title": " Digital Vault API"
+    },
+    "host": "localhost:3000",
+    "basePath": "/base/api/v1/",
+    "tags":[
+        {
+            "name":"Users",
+            "description":"API for users to access the vault."
+        },
+        {
+            "name":"User Details",
+            "description":"API to access user details."
+        }
+    ],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "securityDefinitions":{
+        "Bearer":{
+            "type": "apiKey",
+            "name": "Authorization",
+            "in":"header"
+        }
+    },
+    "paths": {
+       "/users/signUp":{
+           "post": {
+            "security":[
+                {
+                   "Bearer": []
+                }
+            ],
+               "tags":["Users"],
+               "summary":"Create account using mobile number.",
+               "parameters": [
+                   {
+                       "name":"user",
+                       "in":"body",
+                       "description":"user account creation",
+                       "schema": {
+                           "$ref":"#/definitions/User"
+                       }
+                   }
+               ],
+               
+               "produces":["application/json"],
+               "responses":{
+                   "200":{
+                       "description": "success"
+                   },
+                   "400":{
+                    "description": "bad request"
+                   }
+               }
+            }
+       },
+       "/users/signIn": {
+           "post": {
+            "security":[
+                {
+                   "Bearer": []
+                }
+            ],
+            "tags":["Users"],
+            "summary":"Log in to your account using registered mobile number.",
+            "parameters": [
+                {
+                    "name":"login credentials",
+                    "in":"body",
+                    "description":"user login",
+                    "schema": {
+                        "type":"object",
+                        "required":["mobileNumber","mPin"],
+                        "properties":{
+                            "mobileNumber":{
+                                "type":"string"
+                            },
+                            "mPin":{
+                                "type":"string"
+                            }
+                        }
+                    }
+                }
+            ],
+            "produces":["application/json"],
+            "responses":{
+                "200":{
+                    "description": "success"
+                       }
+                   }
+           }
+       },
+       "/users/forgotPassword":{
+           "post":{
+            "security":[
+                {
+                   "Bearer": []
+                }
+            ],
+               "tags":["Users"],
+               "summary":"Forgot password link",
+               "parameters": [
+                {
+                    "name":"mobile number",
+                    "in":"body",
+                    "description":"Enter registered mobile number",
+                    "schema": {
+                        "type":"object",
+                        "required":["mobileNumber"],
+                        "properties":{
+                            "mobileNumber":{
+                                "type":"string"
+                            }
+                        }
+                    }
+                }
+            ],
+            "produces":["application/json"],
+               "responses":{
+                   "200":{
+                       "description": "success"
+                       }
+                }
+           }
+       },
+       "/users/resetPassword":{
+           "post":{
+            "security":[
+                {
+                   "Bearer": []
+                }
+            ],
+            "tags":["Users"],
+            "summary":"Reset password link",
+            "parameters": [
+                {
+                    "name":"reset password by verifying otp",
+                    "in":"body",
+                    "description":"Enter otp ",
+                    "schema": {
+                        "type":"object",
+                        "required":["mobileNumber","code"],
+                        "properties":{
+                            "mobileNumber":{
+                                "type":"string"
+                            },
+                            "code":{
+                                "type":"string"
+                            },
+                            "mPin":{
+                                "type":"string"
+                            },
+                            "confirmMpin":{
+                                "type":"string"
+                            }
+                        }
+                    }
+                }
+            ],
+            "produces":["application/json"],
+               "responses":{
+                   "200":{
+                       "description": "success"
+                       }
+                }
+           }
+
+       },
+       "/userData/addNewData":{
+           "post":{
+            "security":[
+                {
+                   "Bearer": []
+                }
+            ],
+              "tags":["User Details"],
+              "summary":"Add user site details",
+               "parameters": [
+                   {
+                       "name": "add details",
+                       "in":"body",
+                       "description":"add site details",
+                       "schema": {
+                        "$ref":"#/definitions/userDetails"
+                        }
+                   }
+               ],
+               "produces":["application/json"],
+               "responses":{
+                   "200":{
+                       "description":"details added"
+                   }
+               }
+
+           }
+       },
+       "/userData/home/{id}":{
+           "parameters":[
+               {
+                "name": "id",
+                "in":"path",
+                "required":true,
+                "description":" add user id"
+               }        
+           ],
+           "get":{
+            "security":[
+                {
+                   "Bearer": []
+                }
+            ],
+            "tags":["User Details"],
+            "summary":"This display home page of logged in user.",
+            "produces":["application/json"],
+               "responses":{
+                   "200":{
+                       "description":"success"
+                   }
+               }
+           }
+       },
+       "/userData/editDetails/{_id}":{
+        "parameters": [
+            {
+                "name": "edit details",
+                "in":"body",
+                "description":"edit the details to update",
+                "schema":{
+                    "$ref":"#/definitions/userDetails"
+                } 
+            }
+        ],
+        "put":{
+            "security":[
+                {
+                   "Bearer": []
+                }
+            ],
+            "tags":["User Details"],
+            "summary":"Edit details and update.",
+            "parameters":[
+                {
+                 "name": "_id",
+                 "in":"path",
+                 "required":true,
+                 "description":"add id to edit details"
+                }
+            ],
+            "produces":["application/json"],
+               "responses":{
+                   "200":{
+                       "description":"success"
+                   }
+               }
+           }
+       },
+       "/userData/search":{
+        "parameters":[
+            {
+             "name": "siteName",
+             "in":"query",
+             "required":true,
+             "description":"enter siteName to search"
+            }
+        ],
+        "get":{
+            "security":[
+                {
+                   "Bearer": []
+                }
+            ],
+            "tags":["User Details"],
+            "summary":"search by siteName",
+            "produces":["application/json"],
+               "responses":{
+                   "200":{
+                       "description":"success"
+                   }
+               }
+       }
+       },
+       "/userData/sync":{
+        "post":{
+            "security":[
+                {
+                   "Bearer": []
+                }
+            ],
+            "tags":["User Details"],
+            "summary":"Add data to sync",
+            "parameters": [
+                {
+                    "name": "add data to save",
+                    "in":"body",
+                    "description":"add data",
+                    "schema": {
+                        "type":"object",
+                        "required":["userId","userName","sitePassword"],
+                        "properties":{
+                            "userId":{
+                                "type":"string"
+                            },
+                            "userName":{
+                                "type":"string"
+                            },
+                            "sitePassword":{
+                                "type":"string"
+                            }
+                        }
+                      
+                    }
+                }
+            ],
+            "responses":{
+                "200":{
+                    "description":"success"
+                }
+            }
+    }
+    },
+    "/userData/copy":{
+    "post":{
+        "security":[
+            {
+               "Bearer": []
+            }
+        ],
+        "tags":["User Details"],
+        "summary":"copy password link",
+        "parameters":[
+            {
+             "name": "sitePassword",
+             "in":"body",
+             "required":true,
+             "description":"enter sitePassword to copy",
+             "schema":{
+                "type":"object",
+                "required":["sitePassword"],
+                "properties":{
+                    "sitePassword":{
+                        "type":"string"
+                    }
+                }
+             }
+            }
+        ],
+        
+        "produces":["application/json"],
+        "responses":{
+            "200":{
+                "description":"success"
+                }
+            }
+    }
+    
+    }
+    
+    },
+   
+    "definitions":{
+        "User": {
+            "properties":{
+                "mobileNumber":{
+                    "type":"string"
+                },
+                "mPin":{
+                    "type":"string"
+                },
+                "confirmMpin":{
+                    "type":"string"
+                }
+            }
+        },
+        "userDetails": {
+            "required":["userId","categoryName","url","siteName","folder","userName","sitePassword"],
+            "properties":{
+                "userId":{
+                    "type":"string"
+                },
+                "categoryName":{
+                    "type":"string"
+                },
+                "url":{
+                    "type":"string"
+                },
+                "siteName":{
+                    "type":"string"
+                },
+                "folder":{
+                    "type":"string"
+                },
+                "userName":{
+                    "type":"string"
+                },
+                "sitePassword":{
+                    "type":"string"
+                },
+                "notes":{
+                    "type":"string"
+                }
+            }
+
+        }
+
+    }
+}
+
+        
+
+

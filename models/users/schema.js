@@ -1,9 +1,7 @@
 module.exports = function (mongoose) {
 
     const users = new mongoose.Schema({
-        id:{
-            type:Number
-        },
+
         mobileNumber: {
             type: String
         },
