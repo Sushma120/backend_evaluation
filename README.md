@@ -13,3 +13,4 @@ Start the API by
 * twilio :"^3.73.0"
 * copy-paste :"^1.3.0"
 * jsonwebtoken : "^8.5.1"
+* swagger-ui-express:"^4.3.0"
